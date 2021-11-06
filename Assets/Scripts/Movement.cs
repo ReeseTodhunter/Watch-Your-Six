@@ -27,8 +27,8 @@ public class Movement : MonoBehaviour
             gameObject.transform.Translate(-Vector3.up * Time.deltaTime * MOVEMENT_SPEED);
         }
 
-        //float targetAngle = Mathf.Atan2(transform.position.x, transform.position.y) * Mathf.Rad2Deg;
-        //float angle = Mathf.SmoothDampAngle(transform.eulerAngles.z, targetAngle, ref turnSmoothVelocity, SMOOTH_TURN_TIME);
-        //transform.rotation = Quaternion.Euler(0f, 0f, angle);
+        float targetAngle = Mathf.Atan2(transform.position.x, transform.position.y) * Mathf.Rad2Deg;
+        float angle = Mathf.SmoothDampAngle(transform.eulerAngles.z, targetAngle, ref turnSmoothVelocity, SMOOTH_TURN_TIME);
+        transform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 }
