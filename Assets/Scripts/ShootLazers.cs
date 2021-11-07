@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Movement))]
 public class ShootLazers : MonoBehaviour
 {
     public Transform laserPoint;
     public LineRenderer lineRenderer;
 
-    protected int reflections = 2;
+    protected int reflections = 3;
     protected float maxLength = 100;
     // Update is called once per frame
     void Update()
     {
-        var gamepad = Gamepad.current;
-        if (Gamepad.current == null)
-        { }
-        if (gamepad.rightTrigger.wasPressedThisFrame)
+        var Gamepads = Gamepad.all;
+        if (Gamepads[GetComponent<Movement>().playerNum].rightTrigger.wasPressedThisFrame)
         {
             StartCoroutine(Shoot(reflections, maxLength));
         }
@@ -27,47 +26,45 @@ public class ShootLazers : MonoBehaviour
         float remainingLength = maxLength;
         Ray2D reflectlaser;
         RaycastHit2D hitInfo;
-        Vector2 reflectNormal = new Vector2(0, 0);
-        Vector2 startPoint = laserPoint.position;
+        Vector2 startPoint;
+        Vector2 direction;
 
-        lineRenderer.positionCount = 1;
-        lineRenderer.SetPosition(0, laserPoint.position);
-        reflectlaser = new Ray2D(laserPoint.position, laserPoint.up);
+        lineRenderer.positionCount = 2; //Sets size of positionCount eg. size is now 0, 1
+        lineRenderer.SetPosition(0, laserPoint.position); //Sets position 0 to the gun (Starting point)
 
-        Debug.DrawRay(startPoint, reflectlaser.direction * 10, Color.red);
-
+        startPoint = laserPoint.position;
+        direction = laserPoint.up;
         for (int i = 0; i < reflections; i++)
         {
-            hitInfo = Physics2D.Raycast(startPoint, reflectlaser.direction, remainingLength);
+            reflectlaser = new Ray2D(startPoint, direction); //Cast Laser (Ray fired)
+            hitInfo = Physics2D.Raycast(startPoint, direction, remainingLength); //What does laser hit?
             if (hitInfo.transform.name == "Target")
             {
                 Debug.Log(hitInfo.transform.name);
-
-
                 //lineRenderer.SetPosition(0, laserPoint.position);
-                lineRenderer.SetPosition(1, hitInfo.point);
+                lineRenderer.SetPosition(i + 1, hitInfo.point);
+                remainingLength = 0f;
+                i = reflections;
             }
             else
             {
                 Debug.Log("Also " + hitInfo.transform.name);
-                Debug.Log("Normal: " + hitInfo.normal);
                 Debug.Log("Point: " + hitInfo.point);
 
-                lineRenderer.positionCount += 1;
-                lineRenderer.SetPosition(lineRenderer.positionCount - 1, hitInfo.point);
-                //lineRenderer.SetPosition(1, laserPoint.position + laserPoint.up * remainingLength);
+                lineRenderer.positionCount += 1; 
+                lineRenderer.SetPosition(i + 1, hitInfo.point);
                 remainingLength -= Vector2.Distance(laserPoint.position, hitInfo.normal);
-                reflectlaser = new Ray2D(hitInfo.point, Vector2.Reflect(reflectlaser.direction, -hitInfo.normal).normalized);
+                //reflectlaser = new Ray2D(hitInfo.point, Vector2.Reflect(reflectlaser.direction, -hitInfo.normal).normalized);
                 Debug.DrawRay(hitInfo.point, reflectlaser.direction * 10, Color.red);
-                startPoint = hitInfo.point;
-
+                startPoint = hitInfo.point - (direction * 0.01f);
+                direction = Vector2.Reflect(reflectlaser.direction, -hitInfo.normal).normalized;
             }
         }
 
         lineRenderer.enabled = true;
 
         //wait for a short amount of time
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(0.2f);
 
         lineRenderer.enabled = false;
     }

@@ -14,25 +14,31 @@ public class Movement : MonoBehaviour
     Vector2 movementDirection = new Vector2(0f, 0f);
     Vector2 lookDirection = new Vector2(0f, 0f);
 
+    public int playerNum = 0;
+
     void Awake()
     {
         controls = new Controls();
 
-        controls.Gameplay.Move.performed += ctx => movementDirection = ctx.ReadValue<Vector2>();
-        controls.Gameplay.Move.canceled += ctx => movementDirection = Vector2.zero;
+        //controls.Gameplay.Move.performed += ctx => movementDirection = ctx.ReadValue<Vector2>();
+        //controls.Gameplay.Move.canceled += ctx => movementDirection = Vector2.zero;
 
-        controls.Gameplay.Look.performed += ctx => lookDirection = ctx.ReadValue<Vector2>();
-        controls.Gameplay.Look.canceled += ctx => lookDirection = Vector2.zero;
+        //controls.Gameplay.Look.performed += ctx => lookDirection = ctx.ReadValue<Vector2>();
+        //controls.Gameplay.Look.canceled += ctx => lookDirection = Vector2.zero;
     }
 
-    void OnEnable()
+    void start()
     {
-        controls.Gameplay.Enable();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        var Gamepads = Gamepad.all;
+        movementDirection = Gamepads[playerNum].leftStick.ReadValue();
+        lookDirection = Gamepads[playerNum].rightStick.ReadValue();
+
         //Get the direction of movement (WASD/Joystick input) and store in a Vector2 and get the magnitude
         inputMagnitude = Mathf.Clamp01(movementDirection.magnitude); //Save original movement magnitude
         movementDirection.Normalize();
