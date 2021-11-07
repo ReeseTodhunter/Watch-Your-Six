@@ -14,6 +14,7 @@ public class MainMenu : MonoBehaviour
     public void Play()
     {
         GameManager.numOfPlayers = GameManager.NumConnectedControllers();
+        GameManager.time = 120f;
         SceneManager.LoadScene("Level 1"); //Opens the level
         Debug.Log("Play");
     }

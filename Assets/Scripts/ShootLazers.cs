@@ -46,6 +46,7 @@ public class ShootLazers : MonoBehaviour
                 lineRenderer.SetPosition(i + 1, hitInfo.point);
                 remainingLength = 0f;
                 i = reflections;
+                GetComponent<Movement>().playerScore += 1;
             }
             else
             {

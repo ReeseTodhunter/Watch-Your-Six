@@ -15,6 +15,7 @@ public class Movement : MonoBehaviour
     Vector2 lookDirection = new Vector2(0f, 0f);
 
     public int playerNum = 0;
+    public int playerScore = 0;
 
     void Awake()
     {
