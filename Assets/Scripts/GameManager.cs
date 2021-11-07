@@ -102,10 +102,10 @@ public class GameManager : MonoBehaviour
     {
         if(gameUI.activeSelf)
         {
-            for (int i = 0; i < playerScores.Length; i++)
+            for (int i = 0; i < numOfPlayers; i++)
             {
-                //playerScores[i].text = players[i].GetComponent<Movement>().playerScore.ToString();
-                Debug.Log(players[i].name);
+                playerScores[i].text ="P" + (i + 1).ToString() + ": " + players[i].GetComponent<Movement>().playerScore.ToString();
+                //Debug.Log(players[i].name);
             }
 
             if (startTimer)

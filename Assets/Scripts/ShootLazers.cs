@@ -11,17 +11,23 @@ public class ShootLazers : MonoBehaviour
 
     protected int reflections = 3;
     protected float maxLength = 100;
+    private int playerNum;
+
     // Update is called once per frame
+
     void Update()
     {
         var Gamepads = Gamepad.all;
+
         if (Gamepads[GetComponent<Movement>().playerNum].rightTrigger.wasPressedThisFrame)
         {
-            StartCoroutine(Shoot(reflections, maxLength));
+            playerNum = GetComponent<Movement>().playerNum;
+            StartCoroutine(Shoot(reflections, maxLength, playerNum));
+
         }
     }
 
-    IEnumerator Shoot(int reflections, float maxLength)
+    IEnumerator Shoot(int reflections, float maxLength, int playerNum)
     {
         float remainingLength = maxLength;
         Ray2D reflectlaser;
@@ -47,6 +53,7 @@ public class ShootLazers : MonoBehaviour
                 remainingLength = 0f;
                 i = reflections;
                 GetComponent<Movement>().playerScore += 1;
+                Debug.Log(GetComponent<Movement>().playerScore);
             }
             else
             {
