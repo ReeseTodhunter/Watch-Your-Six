@@ -29,7 +29,7 @@ public class ShootLazers : MonoBehaviour
         Vector2 startPoint;
         Vector2 direction;
 
-        lineRenderer.positionCount = 2; //Sets size of positionCount eg. size is now 0, 1
+        lineRenderer.positionCount = 1; //Sets size of positionCount eg. size is now 0, 1
         lineRenderer.SetPosition(0, laserPoint.position); //Sets position 0 to the gun (Starting point)
 
         startPoint = laserPoint.position;
@@ -40,6 +40,7 @@ public class ShootLazers : MonoBehaviour
             hitInfo = Physics2D.Raycast(startPoint, direction, remainingLength); //What does laser hit?
             if (hitInfo.transform.name == "Target")
             {
+                lineRenderer.positionCount += 1;
                 Debug.Log(hitInfo.transform.name);
                 //lineRenderer.SetPosition(0, laserPoint.position);
                 lineRenderer.SetPosition(i + 1, hitInfo.point);
@@ -51,7 +52,7 @@ public class ShootLazers : MonoBehaviour
                 Debug.Log("Also " + hitInfo.transform.name);
                 Debug.Log("Point: " + hitInfo.point);
 
-                lineRenderer.positionCount += 1; 
+                lineRenderer.positionCount += 1;
                 lineRenderer.SetPosition(i + 1, hitInfo.point);
                 remainingLength -= Vector2.Distance(laserPoint.position, hitInfo.normal);
                 //reflectlaser = new Ray2D(hitInfo.point, Vector2.Reflect(reflectlaser.direction, -hitInfo.normal).normalized);
