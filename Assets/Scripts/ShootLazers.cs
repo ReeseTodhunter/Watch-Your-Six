@@ -7,31 +7,61 @@ public class ShootLazers : MonoBehaviour
 {
     public Transform laserPoint;
     public LineRenderer lineRenderer;
+
+    protected int reflections = 2;
+    protected float maxLength = 100;
     // Update is called once per frame
     void Update()
     {
         var gamepad = Gamepad.current;
+        if (Gamepad.current == null)
+        { }
         if (gamepad.rightTrigger.wasPressedThisFrame)
         {
-            StartCoroutine(Shoot());
+            StartCoroutine(Shoot(reflections, maxLength));
         }
     }
 
-    IEnumerator Shoot()
+    IEnumerator Shoot(int reflections, float maxLength)
     {
-       RaycastHit2D hitInfo = Physics2D.Raycast(laserPoint.position, laserPoint.up);
+        float remainingLength = maxLength;
+        Ray2D reflectlaser;
+        RaycastHit2D hitInfo;
+        Vector2 reflectNormal = new Vector2(0, 0);
+        Vector2 startPoint = laserPoint.position;
 
-        if (hitInfo)
-        {
-            Debug.Log(hitInfo.transform.name);
+        lineRenderer.positionCount = 1;
+        lineRenderer.SetPosition(0, laserPoint.position);
+        reflectlaser = new Ray2D(laserPoint.position, laserPoint.up);
 
-            lineRenderer.SetPosition(0, laserPoint.position);
-            lineRenderer.SetPosition(1, hitInfo.point);
-        }
-        else
+        Debug.DrawRay(startPoint, reflectlaser.direction * 10, Color.red);
+
+        for (int i = 0; i < reflections; i++)
         {
-            lineRenderer.SetPosition(0, laserPoint.position);
-            lineRenderer.SetPosition(1, laserPoint.position + laserPoint.up * 100);
+            hitInfo = Physics2D.Raycast(startPoint, reflectlaser.direction, remainingLength);
+            if (hitInfo.transform.name == "Target")
+            {
+                Debug.Log(hitInfo.transform.name);
+
+
+                //lineRenderer.SetPosition(0, laserPoint.position);
+                lineRenderer.SetPosition(1, hitInfo.point);
+            }
+            else
+            {
+                Debug.Log("Also " + hitInfo.transform.name);
+                Debug.Log("Normal: " + hitInfo.normal);
+                Debug.Log("Point: " + hitInfo.point);
+
+                lineRenderer.positionCount += 1;
+                lineRenderer.SetPosition(lineRenderer.positionCount - 1, hitInfo.point);
+                //lineRenderer.SetPosition(1, laserPoint.position + laserPoint.up * remainingLength);
+                remainingLength -= Vector2.Distance(laserPoint.position, hitInfo.normal);
+                reflectlaser = new Ray2D(hitInfo.point, Vector2.Reflect(reflectlaser.direction, -hitInfo.normal).normalized);
+                Debug.DrawRay(hitInfo.point, reflectlaser.direction * 10, Color.red);
+                startPoint = hitInfo.point;
+
+            }
         }
 
         lineRenderer.enabled = true;
