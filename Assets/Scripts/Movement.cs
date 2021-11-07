@@ -5,14 +5,14 @@ using UnityEngine.InputSystem;
 
 public class Movement : MonoBehaviour
 {
-    private const float MOVEMENT_SPEED = 5f;
-    private const float ROTATION_SPEED = 500f;
+    const float MOVEMENT_SPEED = 5f;
+    const float ROTATION_SPEED = 500f;
 
     Controls controls;
 
-    private float inputMagnitude = 0f;
-    private Vector2 movementDirection = new Vector2(0f, 0f);
-    private Vector2 lookDirection = new Vector2(0f, 0f);
+    float inputMagnitude = 0f;
+    Vector2 movementDirection = new Vector2(0f, 0f);
+    Vector2 lookDirection = new Vector2(0f, 0f);
 
     void Awake()
     {
