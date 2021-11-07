@@ -108,6 +108,38 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.45}
   m_EdgeRadius: 0
+--- !u!1 &2718005127683842217
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 188636986407158428}
+  m_Layer: 0
+  m_Name: Laser
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &188636986407158428
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2718005127683842217}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 6837375798610855914}
+  - {fileID: 6405241201351627848}
+  m_Father: {fileID: 48042212987580921}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2926411782505300023
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,9 +170,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1237072890452407161}
-  - {fileID: 6405241201351627848}
-  - {fileID: 6837375798610855914}
   - {fileID: 5909477582626242789}
+  - {fileID: 188636986407158428}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -197,7 +228,7 @@ Transform:
   m_LocalPosition: {x: 0.12, y: 1.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 48042212987580921}
+  m_Father: {fileID: 188636986407158428}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5256176552739269552
@@ -231,7 +262,7 @@ Transform:
   m_LocalScale: {x: 1, y: 0.1, z: 0}
   m_Children: []
   m_Father: {fileID: 48042212987580921}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &9053162373472694361
 MeshFilter:
@@ -334,8 +365,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 48042212987580921}
-  m_RootOrder: 2
+  m_Father: {fileID: 188636986407158428}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &723074850123981163
 LineRenderer:
