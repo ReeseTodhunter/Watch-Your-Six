@@ -13,6 +13,7 @@ public class MainMenu : MonoBehaviour
 
     public void Play()
     {
+        GameManager.map = "Level 1";
         SceneManager.LoadScene("Level 1"); //Opens the level
         Debug.Log("Play");
     }
