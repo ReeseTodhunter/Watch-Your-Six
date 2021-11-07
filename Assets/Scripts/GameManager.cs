@@ -6,10 +6,17 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager GM;
-    public const int MAX_PLAYERS = 4; //holds a constant for the Maximum allowed players
+    private static GameManager GM;
+    private const int MAX_PLAYERS = 4; //holds a constant for the Maximum allowed players
     public static int numOfPlayers; //Contains the selected number of players
     public static string map;
+
+    public static GameObject[] players = new GameObject[4]; //Sets up the players array to hold all created player objects
+    public static Vector2[] spawnPoints = new Vector2[4]; //Sets up the array to store spawn points in
+
+
+    [SerializeField]
+    public GameObject player;
 
     void Awake()
     {
@@ -22,6 +29,12 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        spawnPoints[0] = new Vector2(-8.75f, -3f);
+        spawnPoints[1] = new Vector2(8.75f, -3f);
+        spawnPoints[2] = new Vector2(-8.75f, 3.5f);
+        spawnPoints[3] = new Vector2(8.75f, 3.5f);
+
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
     }
 
@@ -53,9 +66,10 @@ public class GameManager : MonoBehaviour
 
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-        for(int i = 0; i < numOfPlayers; i++)
+        for (int i = 0; i < numOfPlayers; i++)
         {
-
+            players[i] = Instantiate(player, spawnPoints[i], Quaternion.identity);
+            players[i].GetComponent<Movement>().playerNum = i;
         }
     }
 }
