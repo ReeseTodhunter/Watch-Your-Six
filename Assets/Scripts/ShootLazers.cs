@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ShootLazers : MonoBehaviour
 {
@@ -9,11 +10,11 @@ public class ShootLazers : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        var gamepad = Gamepad.current;
+        if (gamepad.rightTrigger.wasPressedThisFrame)
         {
-            StartCoroutine (Shoot());
+            StartCoroutine(Shoot());
         }
-
     }
 
     IEnumerator Shoot()
